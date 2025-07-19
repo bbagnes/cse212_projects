@@ -58,7 +58,7 @@ public static class Arrays
         //values starting at the beginning of the data list until the index value caluculated are the end of the new list.
         if (amount > dataLength)
         {
-            amount = (amount % dataLength);
+            amount %= dataLength;
         }
 
         //Create new list of end numbers.
