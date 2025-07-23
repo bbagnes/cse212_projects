@@ -56,7 +56,7 @@ public class PriorityQueueTests
         priorityQueue.Enqueue("Kevin", 7);
 
         int i = 0;
-
+        //Iterate through the list four times to test if the output list matches the expected list.
         while (i <= 3)
         {
             //Debug.WriteLine(priorityQueue);
@@ -65,8 +65,6 @@ public class PriorityQueueTests
             Assert.AreEqual(expectedDequeueOrder[i], dequeueOrder[i]);
             i++;
         }
-
-
     }
 
     [TestMethod]
@@ -89,9 +87,8 @@ public class PriorityQueueTests
         priorityQueue.Enqueue("Daniel", 5);
         priorityQueue.Enqueue("Ben", 7);
 
-
         int i = 0;
-
+        //Iterate through the list six times to test if the output list matches the expected list.
         while (i <= 5)
         {
             //Debug.WriteLine(priorityQueue);
@@ -100,6 +97,5 @@ public class PriorityQueueTests
             Assert.AreEqual(expectedDequeueOrder[i], dequeueOrder[i]);
             i++;
         }
-
     }
 }
