@@ -10,7 +10,7 @@ public class PriorityQueueTests
     [TestMethod]
     // Scenario: Create an empty queue and verify an exception is thrown when attempting to dequeue it.
     // Expected Result: Triggers an InvalidOperationException: "The queue is empty." to be generated.
-    // Defect(s) Found: None, test passed.
+    // Defect(s) Found: None, test passed. Verified req 4 on assignment.
     public void TestPriorityQueue_Empty()
     {
         var priorityQueue = new PriorityQueue();
@@ -42,6 +42,7 @@ public class PriorityQueueTests
     // Expected Result: The queue should be dequeued in the following order: Joseph, David, Scott, Kevin, Brad.
     // Defect(s) Found: Priority is being used, but priorityItem is not being removed upon dequeue. 
     // Also, index to order priority of items started at 1, not 0; and index should have run until <= _queue.Count - 1, not < _queue.Count - 1.
+    //Verified req 2 on assignment.
     public void TestPriorityQueue_HighestPriorityFirst()
     {
         var priorityQueue = new PriorityQueue();
@@ -53,25 +54,27 @@ public class PriorityQueueTests
         priorityQueue.Enqueue("Scott", 8);
         priorityQueue.Enqueue("Joseph", 15);
         priorityQueue.Enqueue("Kevin", 7);
-        
+
         int i = 0;
 
         while (i <= 3)
         {
             //Debug.WriteLine(priorityQueue);
             var value = priorityQueue.Dequeue();
-            dequeueOrder.Add(value);                        
-            Assert.AreEqual(expectedDequeueOrder[i],dequeueOrder[i]);
+            dequeueOrder.Add(value);
+            Assert.AreEqual(expectedDequeueOrder[i], dequeueOrder[i]);
             i++;
         }
 
-         
+
     }
 
     [TestMethod]
-    // Scenario: Add a group of values with two or more sharing the same priority value, verify equal priority get removed in order of queue.
+    // Scenario: Add a group of values with two or more sharing the same priority values to verify that those of equal priority get removed 
+    // in order of their Enqueuement to the back of the list.
     // Expected Result: The queue should be dequeued in the following order: Joseph, David, Scott, Kevin, Brad, Ben.
     // Defect(s) Found: Function removed the last item with an equally high priority, not the first. Removed = to prevent reassignment of index.
+    //Verified reqs 1, 2, & 3 on assignment.
     public void TestPriorityQueue_3()
     {
         var priorityQueue = new PriorityQueue();
@@ -85,16 +88,16 @@ public class PriorityQueueTests
         priorityQueue.Enqueue("Kevin", 12);
         priorityQueue.Enqueue("Daniel", 5);
         priorityQueue.Enqueue("Ben", 7);
-        
-        
+
+
         int i = 0;
 
         while (i <= 5)
         {
             //Debug.WriteLine(priorityQueue);
             var value = priorityQueue.Dequeue();
-            dequeueOrder.Add(value);                        
-            Assert.AreEqual(expectedDequeueOrder[i],dequeueOrder[i]);
+            dequeueOrder.Add(value);
+            Assert.AreEqual(expectedDequeueOrder[i], dequeueOrder[i]);
             i++;
         }
 
