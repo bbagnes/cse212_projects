@@ -38,35 +38,65 @@ public class PriorityQueueTests
     }
 
     [TestMethod]
-    // Scenario: Add three values with associated priorities to a queue, then verify they are removed in the order of their priority(highest to least).
-    // Expected Result: The queue should be dequeued in the following order: Joseph, David, Scott.
-    // Defect(s) Found: 
+    // Scenario: Add three values with associated priorities to a queue, then verify they are removed in the order of their priority(highest to lowest).
+    // Expected Result: The queue should be dequeued in the following order: Joseph, David, Scott, Kevin, Brad.
+    // Defect(s) Found: Priority is being used, but priorityItem is not being removed upon dequeue. 
+    // Also, index to order priority of items started at 1, not 0; and index should have run until <= _queue.Count - 1, not < _queue.Count - 1.
     public void TestPriorityQueue_HighestPriorityFirst()
     {
         var priorityQueue = new PriorityQueue();
-        List<string> expectedDequeueOrder = ["Joseph", "David", "Scott"];
+        List<string> expectedDequeueOrder = ["Joseph", "David", "Scott", "Kevin"];
         List<string> dequeueOrder = [];
 
+        priorityQueue.Enqueue("Brad", 5);
         priorityQueue.Enqueue("David", 12);
         priorityQueue.Enqueue("Scott", 8);
         priorityQueue.Enqueue("Joseph", 15);
         priorityQueue.Enqueue("Kevin", 7);
+        
+        int i = 0;
 
-        for (int i = 0; i >= 2; i++)
+        while (i <= 3)
         {
+            //Debug.WriteLine(priorityQueue);
             var value = priorityQueue.Dequeue();
-            dequeueOrder.Add(value);
-            Assert.AreEqual(value, expectedDequeueOrder[i]);
-        }    
+            dequeueOrder.Add(value);                        
+            Assert.AreEqual(expectedDequeueOrder[i],dequeueOrder[i]);
+            i++;
+        }
+
+         
     }
 
-    // [TestMethod]
-    // // Scenario: 
-    // // Expected Result: 
-    // // Defect(s) Found: 
-    // public void TestPriorityQueue_3()
-    // {
-    //     var priorityQueue = new PriorityQueue();
-    //     Assert.Fail("Implement the test case and then remove this.");
-    // }
+    [TestMethod]
+    // Scenario: Add a group of values with two or more sharing the same priority value, verify equal priority get removed in order of queue.
+    // Expected Result: The queue should be dequeued in the following order: Joseph, David, Scott, Kevin, Brad, Ben.
+    // Defect(s) Found: Function removed the last item with an equally high priority, not the first. Removed = to prevent reassignment of index.
+    public void TestPriorityQueue_3()
+    {
+        var priorityQueue = new PriorityQueue();
+        List<string> expectedDequeueOrder = ["Joseph", "David", "Scott", "Kevin", "Brad", "Ben"];
+        List<string> dequeueOrder = [];
+
+        priorityQueue.Enqueue("Brad", 7);
+        priorityQueue.Enqueue("David", 12);
+        priorityQueue.Enqueue("Scott", 12);
+        priorityQueue.Enqueue("Joseph", 15);
+        priorityQueue.Enqueue("Kevin", 12);
+        priorityQueue.Enqueue("Daniel", 5);
+        priorityQueue.Enqueue("Ben", 7);
+        
+        
+        int i = 0;
+
+        while (i <= 5)
+        {
+            //Debug.WriteLine(priorityQueue);
+            var value = priorityQueue.Dequeue();
+            dequeueOrder.Add(value);                        
+            Assert.AreEqual(expectedDequeueOrder[i],dequeueOrder[i]);
+            i++;
+        }
+
+    }
 }
