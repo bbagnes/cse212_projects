@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Transactions;
+using Newtonsoft.Json.Serialization;
 
 public class LinkedList : IEnumerable<int>
 {
@@ -32,7 +34,21 @@ public class LinkedList : IEnumerable<int>
     /// </summary>
     public void InsertTail(int value)
     {
-        // TODO Problem 1
+        //Create new node.
+        Node newNode = new(value);
+        // If the list is empty, then point both head and tail to the new node.
+        if (_tail is null)
+        {
+            _head = newNode;
+            _tail = newNode;
+        }
+        // If the list is not empty, then only tail will be affected.
+        else
+        {
+            newNode.Prev = _tail;
+            _tail.Next = newNode;
+            _tail = newNode;
+        } 
     }
 
 
@@ -64,7 +80,20 @@ public class LinkedList : IEnumerable<int>
     /// </summary>
     public void RemoveTail()
     {
-        // TODO Problem 2
+        // If the list has only one item in it, then set head and tail 
+        // to null resulting in an empty list.  This condition will also
+        // cover an empty list.  Its okay to set to null again.
+        if (_tail == _head)
+        {
+            _head = null;
+            _tail = null;
+        }
+        // If the list has more than one item in it, then only the tail will be affected.
+        else if (_tail is not null)
+        {
+            _tail.Prev!.Next = null; // Disconnect the second to last node from the last node.
+            _tail = _tail.Prev; // Update the tail to point to the second to last node.
+        }
     }
 
     /// <summary>
@@ -108,7 +137,52 @@ public class LinkedList : IEnumerable<int>
     /// </summary>
     public void Remove(int value)
     {
-        // TODO Problem 3
+        //Check if list is empty;
+        if (_head is null)
+        {
+            
+        }
+        else
+        {
+            //Set a variable pointing to the head of the list to begin iteration.    
+            var current = _head;
+            //Iterate through the list until the inserted value matches the data in the current node, and designate it as the current node.
+            while (current is not null)
+            {
+                if (current.Data == value)
+                {
+                    break;
+                }
+                else
+                {
+                    current = current.Next;
+                }
+            }
+            
+            //Check if current node is the tail of the list, if so verify its value matches before removing using RemoveTail method.
+            if (current.Next == null)
+            {
+                if (current.Data == value)
+                {
+                    RemoveTail();
+                }
+                else
+                {
+                }
+            }
+            //Check if current node is the head of the list, if so remove using RemoveHead method.
+            else if (current.Prev == null)
+            {
+                RemoveHead();
+            }
+            else
+            {
+                //Set the Prev value for the node immmediately following the node to be removed to point to the node before the node to be removed.
+                current.Next.Prev = current.Prev;
+                //Set the Next value for the node immmediately before the node to be removed to point to the node after the node to be removed.
+                current.Prev.Next = current.Next;
+            }
+        }
     }
 
     /// <summary>
@@ -116,7 +190,20 @@ public class LinkedList : IEnumerable<int>
     /// </summary>
     public void Replace(int oldValue, int newValue)
     {
-        // TODO Problem 4
+
+        var current = _head;
+        while (current is not null)
+        {
+            if (current.Data == oldValue)
+            {
+                current.Data = newValue;
+                current = current.Next;
+            }
+            else
+            {
+                current = current.Next;
+            }
+        }
     }
 
     /// <summary>
@@ -144,10 +231,15 @@ public class LinkedList : IEnumerable<int>
     /// <summary>
     /// Iterate backward through the Linked List
     /// </summary>
-    public IEnumerable Reverse()
+    public IEnumerable<int> Reverse()
     {
         // TODO Problem 5
-        yield return 0; // replace this line with the correct yield return statement(s)
+        var current = _tail; //Start inumeration at the tail since this is the reverse iteration.
+        while (current is not null)
+        {
+            yield return current.Data; // // Provide (yield) each item to the user
+            current = current.Prev; //Go backward through the list, since this is the reverse iteration.
+        }
     }
 
     public override string ToString()
