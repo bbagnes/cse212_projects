@@ -140,14 +140,14 @@ public class LinkedList : IEnumerable<int>
         //Check if list is empty;
         if (_head is null)
         {
-            
+            Console.WriteLine("The list is empty.");
         }
         else
         {
             //Set a variable pointing to the head of the list to begin iteration.    
             var current = _head;
             //Iterate through the list until the inserted value matches the data in the current node, and designate it as the current node.
-            while (current is not null)
+            while (current.Next is not null)
             {
                 if (current.Data == value)
                 {
