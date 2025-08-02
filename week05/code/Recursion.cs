@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics;
 
 public static class Recursion
 {
@@ -14,8 +15,14 @@ public static class Recursion
     /// </summary>
     public static int SumSquaresRecursive(int n)
     {
-        // TODO Start Problem 1
-        return 0;
+        if (n <= 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return n * n + SumSquaresRecursive(n - 1);
+        }        
     }
 
     /// <summary>
@@ -39,7 +46,19 @@ public static class Recursion
     /// </summary>
     public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
     {
-        // TODO Start Problem 2
+        if (word.Length == size) {
+            //Console.WriteLine(word);
+            results.Add(word);
+        }
+        else {
+            for (var i = 0; i < letters.Length; i++)
+            {
+                string newWord = word + letters[i];
+                //Console.WriteLine(letters[i]);
+                var lettersLeft = letters.Remove(i, 1);
+                PermutationsChoose(results, lettersLeft, size, newWord);
+            }
+        }
     }
 
     /// <summary>
@@ -86,6 +105,7 @@ public static class Recursion
     /// </summary>
     public static decimal CountWaysToClimb(int s, Dictionary<int, decimal>? remember = null)
     {
+        
         // Base Cases
         if (s == 0)
             return 0;
@@ -96,11 +116,23 @@ public static class Recursion
         if (s == 3)
             return 4;
 
-        // TODO Start Problem 3
-
-        // Solve using recursion
-        decimal ways = CountWaysToClimb(s - 1) + CountWaysToClimb(s - 2) + CountWaysToClimb(s - 3);
-        return ways;
+        // first we need to create the dictionary for the first call of the method.
+        if (remember == null) {
+            remember = new Dictionary<int, decimal>();
+        }
+        if (remember.ContainsKey(s))
+        {
+            return remember[s];
+        }
+        else
+        {
+            // Solve using recursion
+            decimal ways = CountWaysToClimb(s - 1, remember) + CountWaysToClimb(s - 2, remember) + CountWaysToClimb(s - 3, remember);
+            //Add  a key/value pair for each s to dictionary to save processing time during future calls.
+            remember[s] = ways;
+            Debug.WriteLine(ways);
+            return ways;
+        }        
     }
 
     /// <summary>
