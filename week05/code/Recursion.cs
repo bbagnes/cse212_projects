@@ -22,7 +22,7 @@ public static class Recursion
         else
         {
             return n * n + SumSquaresRecursive(n - 1);
-        }        
+        }
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ public static class Recursion
     /// </summary>
     public static decimal CountWaysToClimb(int s, Dictionary<int, decimal>? remember = null)
     {
-        
+
         // Base Cases
         if (s == 0)
             return 0;
@@ -132,7 +132,7 @@ public static class Recursion
             remember[s] = ways;
             //Debug.WriteLine(ways);
             return ways;
-        }        
+        }
     }
 
     /// <summary>
@@ -150,7 +150,26 @@ public static class Recursion
     /// </summary>
     public static void WildcardBinary(string pattern, List<string> results)
     {
-        // TODO Start Problem 4
+
+        if (!pattern.Contains("*"))
+        {
+            results.Add(pattern);
+        }
+        if (pattern.Contains('*'))
+        {
+            string newPattern = pattern;
+            int var1 = pattern.IndexOf("*");
+            //replace * at var1 with a 0, then add to list.
+            newPattern = newPattern.Remove(var1, 1);
+            newPattern = newPattern.Insert(var1, "0");
+            WildcardBinary(newPattern, results);
+            //replace newly added 0 at var1 with a 1, and add variation to list.
+            newPattern = newPattern.Remove(var1, 1);
+            newPattern = newPattern.Insert(var1, "1");
+            //Console.WriteLine(newPattern);
+            //rerun list to search for and replace the next instand of *.            
+            WildcardBinary(newPattern, results);
+        }
     }
 
     /// <summary>
@@ -164,7 +183,7 @@ public static class Recursion
         if (currPath == null) {
             currPath = new List<ValueTuple<int, int>>();
         }
-        
+
         // currPath.Add((1,2)); // Use this syntax to add to the current path
 
         // TODO Start Problem 5
