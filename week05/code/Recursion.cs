@@ -130,7 +130,7 @@ public static class Recursion
             decimal ways = CountWaysToClimb(s - 1, remember) + CountWaysToClimb(s - 2, remember) + CountWaysToClimb(s - 3, remember);
             //Add  a key/value pair for each s to dictionary to save processing time during future calls.
             remember[s] = ways;
-            Debug.WriteLine(ways);
+            //Debug.WriteLine(ways);
             return ways;
         }        
     }
