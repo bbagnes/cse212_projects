@@ -1,4 +1,9 @@
+using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 using System.Text.Json;
+using Microsoft.VisualBasic;
+
 
 public static class SetsAndMaps
 {
@@ -21,8 +26,25 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        var wordsSet = new HashSet<string>();
+        var pairs = new string[words.Length];
+        var flipped = "";
+
+        foreach (string word in words)
+        {
+            var stack = new Stack<char>();
+            foreach (var letter in word)
+                stack.Push(letter);
+
+            while (stack.Count > 0)
+                flipped += stack.Pop();
+            wordsSet.Add(word);
+            if (wordsSet.Contains(flipped))
+            {
+                pairs.Append($"{word} & {flipped}");
+            }
+        }        
+        return pairs;
     }
 
     /// <summary>
@@ -39,10 +61,12 @@ public static class SetsAndMaps
     public static Dictionary<string, int> SummarizeDegrees(string filename)
     {
         var degrees = new Dictionary<string, int>();
-        foreach (var line in File.ReadLines(filename))
-        {
+        foreach (var line in File.ReadLines("./census.txt") {
             var fields = line.Split(",");
-            // TODO Problem 2 - ADD YOUR CODE HERE
+            string degree = fields[4];
+            int years = int.Parse(fields[5]);
+            Console.WriteLine($"{degree}, {years}.");
+            degrees.Add(degree, years);
         }
 
         return degrees;
@@ -66,8 +90,62 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        //Ensure all letters in the string are lower case for easy storage and comparison.
+        word1 = word1.ToLower();
+        word2 = word2.ToLower();
+
+        //Create a separate dictionary to receive the letters from each word.
+        var dictionary1 = new Dictionary<char, int>();
+        var dictionary2 = new Dictionary<char, int>();
+
+        foreach (char letter in word1)
+        {
+            if (letter == ' ')
+            {
+                continue;
+            }
+            else
+            {
+                if (dictionary1.ContainsKey(letter))
+                {
+                    dictionary1[letter]++;
+                }
+                else
+                {
+                    dictionary1[letter] = 1;
+                }
+            }
+        }
+        foreach (char letter in word2)
+        {
+            if (letter == ' ')
+            {
+                continue;
+            }
+            else
+            {
+                if (dictionary2.ContainsKey(letter))
+                {
+                    dictionary2[letter]++;
+                }
+                else
+                {
+                    dictionary2[letter] = 1;
+                }
+            }
+        }
+        //Order each dictionary so they can be compared.
+        dictionary1 = dictionary1.OrderByDescending(char);
+        dictionary2 = dictionary2.OrderByDescending<>;
+               if (dictionary1 != dictionary2)
+        {
+            return false;
+        }
+        else
+        {
+           return true;
+        }
+        
     }
 
     /// <summary>
