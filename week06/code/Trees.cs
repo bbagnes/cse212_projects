@@ -53,7 +53,7 @@ public static class Trees
         //     first = 0;
         //     last = sortedNumbers.Length - 1;
         // }
-        // if (sortedNumbers.Length == 0)
+        // if (sortedNumbers.Length == bst.Size)
         // {
 
         // }
@@ -62,8 +62,12 @@ public static class Trees
         //     int i = (last - first) / 2;
         //     Console.WriteLine(sortedNumbers[i]);
         //     bst.Insert(sortedNumbers[i]);
-        //     sortedNumbers.Prepend(i);
-        //     InsertMiddle(sortedNumbers, first, last, bst);
+        //     i = (i-1) / 2;
+        //     bst.Insert(sortedNumbers[i]);
+        //     i = (Last + (i+2)) / 2;
+        //     bst.Insert(sortedNumbers[i]);
+        //     InsertMiddle(sortedNumbers, first, i-1, bst);
+        //     InsertMiddel(sortedNumbers, i+1, Last, bst);
         // }
     }
 }
